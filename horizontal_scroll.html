@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>gsap horizontal scroll</title>
+  <link rel="stylesheet" href="./reset.css">
+  <style>
+    html {font-size: 16px;}
+    body {min-width: 768px}
+    @media all and (max-width: 1280px) {html {font-size: 14px;}}
+    
+    .visual,
+    .bottom {display: flex; justify-content: center; align-items: center; height: 100vh; background-color: #000;}
+    .visual h2, .bottom h2 {font-size: 6.25rem; color: #fff;}
+
+    .contents {height: 100vh; padding: 100px 0; overflow: hidden;}
+    .contents h2 {margin-bottom: 60px; text-align: center; font-size: 2.25rem;}
+    .contents ul {display: flex; padding: 0 40px;}
+    .contents li {flex-shrink: 0; margin-right: 40px;}
+    .contents li a {display: block;}
+    .contents li figure {background-color: rgb(226, 54, 149);}
+    .contents li img {width: 100%;}
+    .contents li p {margin-top: 20px; font-size: 24px; font-weight: 700;}
+  </style>
+</head>
+
+<body>
+  <div class="wrapper">
+    <section class="visual">
+      <h2>가로 스크롤 시작</h2>
+    </section>
+    <section class="contents">
+      <h2>가로 스크롤 콘텐츠</h2>
+      <ul>
+        <li>
+          <a href="#">
+            <figure>
+              <img src="./image/img_01.png" alt="img_01">
+            </figure>
+            <p>img_01 이미지 출처 유튜브</p>
+          </a>
+        </li>
+        <li><a href="#"><figure><img src="./image/img_02.png" alt="img_02"></figure><p>img_02 이미지 출처 유튜브</p></a></li>
+        <li><a href="#"><figure><img src="./image/img_03.png" alt="img_03"></figure><p>img_03 이미지 출처 유튜브</p></a></li>
+        <li><a href="#"><figure><img src="./image/img_04.png" alt="img_04"></figure><p>img_04 이미지 출처 유튜브</p></a></li>
+        <li><a href="#"><figure><img src="./image/img_05.png" alt="img_05"></figure><p>img_05 이미지 출처 유튜브</p></a></li>
+        <li><a href="#"><figure><img src="./image/img_06.png" alt="img_06"></figure><p>img_06 이미지 출처 유튜브</p></a></li>
+        <li><a href="#"><figure><img src="./image/img_07.png" alt="img_07"></figure><p>img_07 이미지 출처 유튜브</p></a></li>
+        <li class="img_08"><a href="#"><figure><img src="./image/img_08.png" alt="img_08"></figure><p>img_08 이미지 출처 유튜브</p></a></li>
+        <li class="img_09"><a href="#"><figure><img src="./image/img_09.png" alt="img_09"></figure><p>img_09 이미지 출처 유튜브</p></a></li>
+        <li><a href="#"><figure><img src="./image/img_10.png" alt="img_10"></figure><p>img_10 이미지 출처 유튜브</p></a></li>
+        <li><a href="#"><figure><img src="./image/img_11.png" alt="img_11"></figure><p>img_11 이미지 출처 유튜브</p></a></li>
+      </ul>
+    </section>
+    <section class="bottom">
+      <h2>가로 스크롤 끝</h2>
+    </section>
+  </div>
+  <!-- <script src="https://unpkg.com/lenis@1.1.19/dist/lenis.min.js"></script> -->
+  <script>
+    // Initialize Lenis
+    const lenis = new Lenis({
+      autoRaf: true,
+      // duration: 1.5,
+    });
+
+    // Listen for the scroll event and log the event data
+    lenis.on('scroll', (e) => {
+      // console.log(e);
+    });
+  </script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script>
+    const contents = document.querySelector(".contents");
+    const contentsList = document.querySelector(".contents ul");
+    const contentsItem = gsap.utils.toArray(".contents ul li");
+
+    // ScrollTrigger 애니메이션을 생성하는 함수
+    function createAnimation() {
+      // 기존 ScrollTrigger 인스턴스가 있다면 제거
+      ScrollTrigger.getAll().forEach(st => st.kill());
+
+      // totalWidth 계산
+      const totalWidth = contents.scrollWidth - document.body.scrollWidth + 80;
+
+      // 새로운 애니메이션 생성
+      const scrollTween = gsap.to(contentsItem, {
+        ease: "none",
+        x: -totalWidth,
+        scrollTrigger: {
+          trigger: contents,
+          scroller: "body",
+          // markers: true,
+          start: "center center",
+          end: () => "+=" + contents.scrollWidth,
+          scrub: 1,
+          pin: true,
+          anticipatePin: 1,
+          invalidateOnRefresh: true,
+        }
+      });
+
+      // 가로 스크롤 시 애니메이션
+      gsap.from(".img_08 img", {
+        y: 200,
+        duration: 2,
+        ease: "elastic",
+        scrollTrigger: {
+          trigger: ".img_08 img",
+          containerAnimation: scrollTween,
+          start: "center center",
+          end: "100% 100%",
+          toggleActions: "play none reverse none",
+          markers: true,
+          id: "img_08 img"
+        }
+      });
+
+      gsap.from(".img_09 img", {
+        y: 200,
+        duration: 2,
+        ease: "elastic",
+        scrollTrigger: {
+          trigger: ".img_09 img",
+          containerAnimation: scrollTween,
+          start: "0 50%",
+          end: "100% 100%",
+          // toggleActions: "play none reverse none",
+          // markers: true,
+          // id: "img_09 img"
+        }
+      });
+    }
+
+    // 초기 애니메이션 생성
+    createAnimation();
+
+    // 리사이즈 이벤트에 대한 디바운스 함수
+    function debounce(func, wait) {
+      let timeout;
+      return function executedFunction(...args) {
+        const later = () => {
+          clearTimeout(timeout);
+          func(...args);
+        };
+        clearTimeout(timeout);
+        timeout = setTimeout(later, wait);
+      };
+    }
+
+    // 리사이즈 이벤트 리스너 등록
+    window.addEventListener('resize', debounce(() => {
+      createAnimation();
+    }, 300));
+  </script>
+</body>
+
+</html>
