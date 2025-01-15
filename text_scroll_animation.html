@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./reset.css">
+    <title>gsap text scroll animation</title>
+    <style>
+        section {
+            height: 100vh;
+            padding: 0 clamp(4rem, 12vw, 20rem);
+            display: grid;
+            place-content: center;
+        }
+
+        p {
+            /* font-size: clamp(2rem, 5vw, 8rem); */
+            font-size: 3rem;
+        }
+
+        section:nth-of-type(1) {
+            border-bottom: 1px solid #000;
+        }
+
+        section:nth-of-type(3) {
+            background-color: #ff0;
+        }
+
+        section:nth-of-type(4) {
+            background-color: rgb(29, 29, 29);
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+    <section>
+        <h2>시작</h2>
+    </section>
+    <section>
+        <h2 class="reveal-type">Lorem ipsum dolor sit amet consectetur adipisicing elit. Corporis ipsum iure temporibus vero voluptatem, quasi iusto consequuntur similique? Quibusdam cum nam similique corrupti sequi impedit. Et unde odit fugit repudiandae.</h2>
+    </section>
+    <section>
+        <h2 class="reveal-type">Lorem ipsum dolor sit amet consectetur adipisicing elit. Corporis ipsum iure temporibus vero voluptatem, quasi iusto consequuntur similique? Quibusdam cum nam similique corrupti sequi impedit. Et unde odit fugit repudiandae.</h2>
+    </section>
+    <section>
+        <h2 class="reveal-type">Lorem ipsum dolor sit amet consectetur adipisicing elit. Corporis ipsum iure temporibus vero voluptatem, quasi iusto consequuntur similique? Quibusdam cum nam similique corrupti sequi impedit. Et unde odit fugit repudiandae.</h2>
+    </section>
+    <section>
+        <h2 class="reveal-type">Lorem ipsum dolor sit amet consectetur adipisicing elit. Corporis ipsum iure temporibus vero voluptatem, quasi iusto consequuntur similique? Quibusdam cum nam similique corrupti sequi impedit. Et unde odit fugit repudiandae.</h2>
+    </section>
+    <section>
+        <h2 class="reveal-type">Lorem ipsum dolor sit amet consectetur adipisicing elit. Corporis ipsum iure temporibus vero voluptatem, quasi iusto consequuntur similique? Quibusdam cum nam similique corrupti sequi impedit. Et unde odit fugit repudiandae.</h2>
+    </section>
+    <section>
+        <h2>끝</h2>
+    </section>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <script src="https://unpkg.com/split-type"></script>
+    <script>
+        gsap.registerPlugin(ScrollTrigger);
+
+        const splitTypes = document.querySelectorAll(".reveal-type");
+
+        splitTypes.forEach((char, i) => {
+            const bg = char.dataset.bgColor;
+            const fg = char.dataset.fgColor;
+
+            const text = new SplitType(char, {
+                types: "chars, words",
+            });
+
+            gsap.from(text.chars, {
+                opacity: 0.2,
+                // opacity: 0,
+                stagger: 0.1,
+                // y: 100,
+                // scaleY: 0,
+                // y: -20,
+                transfromOrigin: "top",
+                scrollTrigger: {
+                    trigger: char,
+                    start: "top 80%",
+                    // end: "top, 20%",
+                    end: "top 10",
+                    scrub: true,
+                    markers: false,
+                },
+            });
+        });
+    </script>
+</body>
+</html>
