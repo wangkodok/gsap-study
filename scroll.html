@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./reset.css">
+    <link rel="stylesheet" href="./font.css">
+    <title>gsap timeline scrollTrigger</title>
+    <style>
+        html {font-family: "Freesentation_5Medium";}
+        
+        body {visibility: hidden; min-width: 1280px;}
+        body.loaded {visibility: visible;}
+
+        /* 스크롤 보이지 않게 */
+        body.scrollbar {-ms-overflow-style: none; /* IE, Edge */ scrollbar-width: none; /* Firefox */}
+        ::-webkit-scrollbar {display: none;} /* Chrome, Safari, Opera */
+
+        body {overflow: hidden;}
+        body.scroll {overflow: visible;}
+
+        .shape {display: inline-block; width: 48px; height: 48px; margin-left: 10px; background: url("./image/shape.png") no-repeat center / 60px auto; animation: rotate360 2s linear infinite;}
+        @keyframes rotate360 {from {transform: rotate(0deg);} to {transform: rotate(360deg);}}
+
+        .loading {position: absolute; z-index: 100000; width: 100%; height: 100vh;}
+        .loading .left {position: absolute; left: 0; width: 50%; height: 100vh; background-color: #58ffba;}
+        .loading .right {position: absolute; right: 0; width: 50%; height: 100vh; background-color: #578ef3;}
+
+        header {position: absolute; top: 0; right: 0; left: 0; z-index: 10000; display: flex; align-items: center; justify-content: space-between; height: 100px; padding: 20px; box-sizing: border-box;}
+        header .logo img {width: 100px;}
+        header .nav-gnb ul {display: flex;}
+        header .nav-gnb li {margin-right: 24px;}
+        header .nav-gnb a {font-size: 20px;}
+
+        .sec-visual {position: relative; height: 100vh; background-color: rgb(117, 215, 228);}
+        .sec-visual .title {position: absolute; top: 50%; left: 50%; display: flex; align-items: center; transform: translate(-50%, -50%); font-size: 52px;}
+        .sec-visual img {position: absolute; top: 0; left: 50%; transform: translate(-50%, 0%); z-index: 1000; width: 500px;}
+
+        .sec-scroll {position: relative; height: 100vh; background-color: rgb(224, 117, 228);}
+
+        .sec-bottom {height: 100vh; background-color: rgb(230, 243, 114);}
+    </style>
+</head>
+<body>
+    <div class="loading">
+        <div class="left"></div>
+        <div class="right"></div>
+    </div>
+    <div class="wrapper">
+        <header>
+            <a href="#" class="logo">
+                <img src="./image/logo_brawlstars.webp" alt="브롤스타즈">
+            </a>
+            <nav class="nav-gnb">
+                <ul>
+                    <li>
+                        <a href="#">Games</a>
+                    </li>
+                    <li>
+                        <a href="#">Careers</a>
+                    </li>
+                    <li>
+                        <a href="#">Support</a>
+                    </li>
+                    <li>
+                        <a href="#">About Us</a>
+                    </li>
+                </ul>
+            </nav>
+        </header>
+        <main>
+            <section class="sec-visual">
+                <h2 class="title">ScrollTrigger<span class="shape"></span></h2>
+                <div class="contents-area">
+                    <figure>
+                        <img src="./image/image_05.jpg" alt="image_05">
+                    </figure>
+                </div>
+            </section>
+            <section class="sec-scroll"></section>
+            <section class="sec-bottom"></section>
+        </main>
+        <footer></footer>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <script>
+        window.onload = function () {
+            document.body.classList.add("loaded");
+        }
+
+        window.onbeforeunload = function () {
+            window.scrollTo(0, 0);
+        };
+
+        const loading = gsap.timeline({})
+        loading.to(".loading .right, .loading .left", {
+            width: 0,
+            opacity: 0,
+            duration: 1,
+            delay: 1,
+        })
+
+        loading.from("header .logo img", {
+            opacity: 0,
+        })
+
+        loading.from(".sec-visual .title", {
+            y: 20,
+            opacity: 0,
+        })
+
+        loading.to("body", {
+            overflow: "visible",
+        })
+
+        loading.to(".loading", {
+            display: "none",
+        })
+
+        gsap.to(".sec-visual img", 5, {
+            width: "1000px",
+            y: "100vh",
+            scrollTrigger: {
+                trigger: ".sec-scroll",
+                start: "top bottom",
+                end: "bottom bottom",
+                scrub: true,
+                markers: true,
+                anticipatePin: 1,
+            },
+        })
+    </script>
+</body>
+</html>
