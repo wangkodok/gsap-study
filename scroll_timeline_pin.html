@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./reset.css">
+    <link rel="stylesheet" href="./font.css">
+    <title>gsap scrollTrigger gsap.timeline, pin</title>
+    <style>
+        header {position: absolute; top: 0; right: 0; left: 0; z-index: 10000; display: flex; align-items: center; justify-content: space-between; height: 100px; padding: 20px; box-sizing: border-box;}
+        header .logo img {width: 100px;}
+        header .nav-gnb ul {display: flex;}
+        header .nav-gnb li {margin-right: 24px;}
+        header .nav-gnb a {font-size: 20px;}
+
+        .sec-visual {position: relative; height: 100vh; background-color: rgb(117, 215, 228);}
+        .sec-visual .sub-title {position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);}
+        .sec-visual .title {position: absolute; top: 50%; left: 50%; display: flex; width: 100%; justify-content: space-between; align-items: center; transform: translate(-50%, -50%); font-size: 52px; font-weight: 100;}
+        .sec-visual img {position: absolute; top: 0; left: 50%; transform: translate(-50%, 0%); z-index: 1000; width: 500px;}
+
+        .sec-scroll {position: relative; height: 100vh; background-color: rgb(224, 117, 228);}
+
+        /* .sec-bottom {position: relative; height: 100vh; background-color: rgb(230, 243, 114);} */
+
+        footer {padding: 20px 0; text-align: center; background-color: rgb(114, 243, 168);}
+    </style>
+</head>
+<body>
+    <div class="loading">
+        <div class="left"></div>
+        <div class="right"></div>
+    </div>
+    <div class="wrapper">
+        <header>
+            <a href="#" class="logo">
+                <img src="./image/logo_brawlstars.webp" alt="브롤스타즈">
+            </a>
+            <nav class="nav-gnb">
+                <ul>
+                    <li>
+                        <a href="#">Games</a>
+                    </li>
+                    <li>
+                        <a href="#">Careers</a>
+                    </li>
+                    <li>
+                        <a href="#">Support</a>
+                    </li>
+                    <li>
+                        <a href="#">About Us</a>
+                    </li>
+                </ul>
+            </nav>
+        </header>
+        <main>
+            <section class="sec-visual">
+                <strong class="sub-title">scrollTrigger</strong>
+                <h2 class="title">gsap.timeline<span class="shape">pin: true</span></h2>
+                <div class="contents-area">
+                    <figure>
+                        <img src="./image/image_05.jpg" alt="image_05">
+                    </figure>
+                </div>
+            </section>
+            <section class="sec-scroll"></section>
+            <!-- <section class="sec-bottom"></section> -->
+        </main>
+        <footer>footer</footer>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <script>
+        // 1. 스크롤 시 요소 애니메이션
+        // gsap.to(".sec-visual .title", 5, {
+        //     width: "40%",
+        //     scrollTrigger: {
+        //         trigger: ".sec-visual",
+        //         start: "top top",
+        //         end: "+=500",
+        //         scrub: true,
+        //         markers: true,
+        //         pin: true,
+        //         anticipatePin: 1,
+        //     },
+        // })
+
+
+
+        // 2. 스크롤 시 요소 순서대로 애니메이션
+        const tl = gsap.timeline({
+            scrollTrigger: {
+                trigger: ".sec-visual",
+                start: "top top",
+                end: "+=2000",
+                scrub: true,
+                markers: true,
+                pin: true,
+                anticipatePin: 1,
+            },
+        });
+
+        tl.set(".sec-visual img", {zIndex: -1}) // 애니메이션 시작되기 전에 실행
+          .to(".sec-visual .title", {width: "40%"})
+          .to(".sec-visual .title", {fontSize: "24px"}) // 0.5초 딜레이 후 실행
+          .to(".sec-visual img", {top: "320px"}, "+=0.5"); // 0.5초 딜레이 후 실행
+    </script>
+</body>
+</html>
