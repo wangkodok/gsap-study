@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>text typing animation</title>
+    <style>
+        h1 {
+            font-size: 100px;
+        }
+
+        h1 b {
+            position: relative;
+            color: #333;
+            padding-right: 4px;
+            margin-right: 4px;
+        }
+        
+        h1 b::before {
+            content: "";
+            position: absolute;
+            right: 0px;
+            top: 0;
+            bottom: 0;
+            width: 1px;
+            background-color: #000;
+            animation: blink 1s infinite 0.8s;
+        }
+        
+        h1 b.stop-blinking::before {
+            animation: none;
+        }
+        
+        @keyframes blink {
+            50% {
+                content: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>developer<b></b>!</h1>
+    <script>
+        const text = document.querySelector("b");
+        const word = ["ui", "ux", "bx", "cx"];
+
+        // 단어 앞에 뛰어쓰기
+        const frontSpacedWord = word.map((word) => {
+            return " " + word;
+        });
+
+        // 단어 뒤에 뛰어쓰기
+        // const backSpacedWord = word.map((word) => {
+        //     return word + " ";
+        // });
+
+        let wordIndex = 0;
+        let charIndex = 0;
+        let isDeleting = false;
+
+        function typeEffect() {
+            const currentWord = frontSpacedWord[wordIndex];
+            const currentChar = currentWord.substring(0, charIndex);
+            text.textContent = currentChar;
+            text.classList.add("stop-blinking");
+
+            if (!isDeleting && charIndex < currentWord.length) {
+                charIndex = charIndex + 1;
+
+                setTimeout(() => {
+                    typeEffect();
+                }, 200);
+            } else if (isDeleting && charIndex > 0) {
+                charIndex = charIndex - 1;
+
+                setTimeout(() => {
+                    typeEffect();
+                }, 100);
+            } else {
+                isDeleting = !isDeleting;
+ 
+                if (!isDeleting) {
+                    wordIndex = (wordIndex + 1) % frontSpacedWord.length;
+                } else {
+                    wordIndex = wordIndex;
+                }
+                // wordIndex = !isDeleting ? (wordIndex + 1) % frontSpacedWord.length : wordIndex;
+ 
+                text.classList.remove("stop-blinking");
+
+                setTimeout(() => {
+                    typeEffect();
+                }, 1200);
+            }
+        };
+
+        typeEffect();
+    </script>
+</body>
+</html>
