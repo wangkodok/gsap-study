@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./reset.css">
+    <title>gsap scroll position: sticky scrollTrigger</title>
+    <style>
+        @font-face {
+            font-family: "Freesentation";
+            src: url("./font/Freesentation_VF.woff2") format("woff2");
+            font-weight: normal;
+            font-style: normal;
+        }
+        html {font-family: "Freesentation";}
+        header {position: absolute; top: 0; right: 0; left: 0; z-index: 10000; display: flex; align-items: center; justify-content: space-between; height: 100px; padding: 20px; box-sizing: border-box;}
+        header .logo img {width: 100px;}
+        header .nav-gnb ul {display: flex;}
+        header .nav-gnb li {margin-right: 24px;}
+        header .nav-gnb a {font-size: 16px; font-weight: 900;}
+        #section, footer {display: flex; justify-content: center; align-items: center; height: 100vh; font-size: 100px; background-color: rgb(248, 248, 114);}
+
+        #brawlstars-character {background-color: rgb(255, 255, 255);}
+        #brawlstars-character .character-area {display: flex; justify-content: space-between; max-width: 1240px; padding: 0 20px; margin: 0 auto;}
+        #brawlstars-character .character-area .text-area {position: sticky; top: 100px; height: 100%; margin-bottom: 20px;}
+        #brawlstars-character .character-area .sec-title {font-size: 72px;}
+        #brawlstars-character .character-area .sec-desc {font-size: 48px;}
+        #brawlstars-character .bs-item {padding: 20px; margin-bottom: 20px;}
+        #brawlstars-character .bs-item figure {border: 1px solid #000;}
+        #brawlstars-character .bs-item img {height: 220px;}
+
+        .bs-item.shelly {background-color: #7328b1;}
+        .bs-item.nita {background-color: #a23042; visibility: hidden;}
+        .bs-item.colt {background-color: #f5196a;}
+        .bs-item.bull {background-color: #f9be00;}
+        .bs-item.jessie {background-color: #0b8ee6;}
+
+        .bs-item.nita.image_active {visibility: visible;}
+    </style>
+</head>
+<body>
+    <div class="wrapper">
+        <header>
+            <a href="#" class="logo">
+                <img src="./image/logo_brawlstars.webp" alt="브롤스타즈">
+            </a>
+            <nav class="nav-gnb">
+                <ul>
+                    <li>
+                        <a href="#">Games</a>
+                    </li>
+                    <li>
+                        <a href="#">Careers</a>
+                    </li>
+                    <li>
+                        <a href="#">Support</a>
+                    </li>
+                    <li>
+                        <a href="#">About Us</a>
+                    </li>
+                </ul>
+            </nav>
+        </header>
+        <main>
+            <section id="section">
+                <b>시작</b>
+            </section>
+            <section id="brawlstars-character">
+                <div class="character-area">
+                    <div class="text-area">
+                        <h2 class="sec-title">쉘리</h2>
+                        <p class="sec-desc">브롤스타즈</p>
+                    </div>
+                    <ul class="bs-list">
+                        <li class="bs-item shelly"><figure><img src="./image/brawlstars_shelly.webp" alt="쉘리"></figure></li>
+                        <li class="bs-item nita"><figure><img src="./image/brawlstars_nita.webp" alt="니타"></figure></li>
+                        <li class="bs-item colt"><figure><img src="./image/brawlstars_colt.webp" alt="콜트"></figure></li>
+                        <li class="bs-item bull"><figure><img src="./image/brawlstars_bull.webp" alt="볼"></figure></li>
+                        <li class="bs-item jessie"><figure><img src="./image/brawlstars_jessie.webp" alt="제시"></figure></li>
+                    </ul>
+                </div>
+            </section>
+        </main>
+        <footer>
+            <b>끝</ㅠ>
+        </footer>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <script>
+        gsap.to(".nita", {
+            // opacity: 0,
+            // scale: 0.7,
+            scrollTrigger: {
+                trigger: ".nita",
+                start: "top 15%",
+                end: "bottom 15%",
+                scrub: true,
+                markers: true,
+                onEnter: (() => {
+                    console.log("start")
+                    const secTitle = document.querySelector(".sec-title");
+                    const nita = document.querySelector(".nita");
+                    secTitle.innerText = "니타";
+                    nita.classList.add("image_active");
+                    console.log(nita);
+                }),
+                onLeave: (() => {
+                    console.log("end")
+                    const nita = document.querySelector(".nita");
+                    nita.classList.remove("image_active");
+                }),
+                onEnterBack: (() => {
+                    console.log("Back start")
+                    const nita = document.querySelector(".nita");
+                    nita.classList.add("image_active");
+                }),
+                onLeaveBack: (() => {
+                    console.log("Back end")
+                    const secTitle = document.querySelector(".sec-title");
+                    const nita = document.querySelector(".nita");
+                    secTitle.innerText = "쉘리";
+                    nita.classList.remove("image_active");
+                    console.log(nita);
+                }),
+            }
+        })
+
+        gsap.to(".colt", {
+            // opacity: 0,
+            // scale: 0.7,
+            scrollTrigger: {
+                trigger: ".colt",
+                start: "top 15%",
+                end: "bottom 15%",
+                scrub: true,
+                // markers: true,
+                onEnter: (() => {
+                    // console.log("start")
+                    const secTitle = document.querySelector(".sec-title");
+                    secTitle.innerText = "콜트";
+                    console.log(secTitle);
+                }),
+                onLeave: (() => {
+                    // console.log("end")
+                }),
+                onEnterBack: (() => {
+                    // console.log("Back start")
+                }),
+                onLeaveBack: (() => {
+                    // console.log("Back end")
+                    const secTitle = document.querySelector(".sec-title");
+                    secTitle.innerText = "니타";
+                }),
+            }
+        })
+
+        gsap.to(".bull", {
+            // opacity: 0,
+            // scale: 0.7,
+            scrollTrigger: {
+                trigger: ".bull",
+                start: "top 15%",
+                end: "bottom 15%",
+                scrub: true,
+                // markers: true,
+                onEnter: (() => {
+                    // console.log("start")
+                    const secTitle = document.querySelector(".sec-title");
+                    secTitle.innerText = "볼";
+                    console.log(secTitle);
+                }),
+                onLeave: (() => {
+                    // console.log("end")
+                }),
+                onEnterBack: (() => {
+                    // console.log("Back start")
+                }),
+                onLeaveBack: (() => {
+                    // console.log("Back end")
+                    const secTitle = document.querySelector(".sec-title");
+                    secTitle.innerText = "콜트";
+                }),
+            }
+        })
+
+        gsap.to(".jessie", {
+            // opacity: 0,
+            // scale: 0.7,
+            scrollTrigger: {
+                trigger: ".jessie",
+                start: "top 15%",
+                end: "bottom 15%",
+                scrub: true,
+                // markers: true,
+                onEnter: (() => {
+                    // console.log("start")
+                    const secTitle = document.querySelector(".sec-title");
+                    secTitle.innerText = "제시";
+                    console.log(secTitle);
+                }),
+                onLeave: (() => {
+                    // console.log("end")
+                }),
+                onEnterBack: (() => {
+                    // console.log("Back start")
+                }),
+                onLeaveBack: (() => {
+                    // console.log("Back end")
+                    const secTitle = document.querySelector(".sec-title");
+                    secTitle.innerText = "볼";
+                }),
+            }
+        })
+    </script>
+</body>
+</html>
