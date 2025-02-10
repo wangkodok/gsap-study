@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>gsap full page animation</title>
+  <link rel="stylesheet" href="./reset.css">
+  <style>
+    @font-face {
+      font-family: "Freesentation";
+      src: url("./font/Freesentation_VF.woff2") format("woff2");
+      font-weight: normal;
+      font-style: normal;
+    }
+
+    html {
+      overflow: hidden;
+      font-family: "Freesentation";
+      font-size: 10px;
+    }
+
+    header {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      padding: 6.25rem;
+      font-size: 3rem;
+      font-weight: 500;
+    }
+
+    section {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: auto;
+    }
+
+    h2 {
+      font-size: 10.417vw;
+    }
+
+    footer {
+      padding: 6.25rem;
+      font-size: 3rem;
+      font-weight: 500;
+    }
+  </style>
+</head>
+
+<body>
+  <header>header</header>
+  <main>
+    <section id="visual">
+      <h2 class="title">section 1</h2>
+    </section>
+
+    <section id="slider">
+      <h2 class="title">section 2</h2>
+    </section>
+
+    <section id="contents">
+      <h2 class="title">section 3</h2>
+    </section>
+  </main>
+  <footer>footer</footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollToPlugin.min.js"></script>
+  <script>
+    gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
+
+    const sections = document.querySelectorAll("section");
+    const footer = document.querySelector("footer");
+    const totalSections = sections.length + 1;
+
+    let currentSection = 0;
+    let isAnimating = false;
+    let touchStartY = 0;
+    let lastTouchY = 0; // 이전 터치 위치 저장
+    let touchStartTime = 0;
+    let isTouching = false;
+
+    // 현재 브라우저 높이(px)로 섹션 크기 설정
+    function setSectionHeight() {
+      const viewportHeight = window.innerHeight;
+      sections.forEach(section => {
+        section.style.height = `${viewportHeight}px`;
+      });
+    };
+
+    // 특정 섹션으로 스크롤 이동
+    function scrollToSection(index) {
+      if (isAnimating) return;
+      isAnimating = true;
+
+      gsap.to(window, {
+        duration: 0.8,
+        scrollTo: {
+          y: index === totalSections - 1 ? footer : sections[index],
+          autoKill: false
+        },
+        ease: "power2.out",
+        onComplete: () => {
+          isAnimating = false;
+        },
+      });
+    };
+
+    // PC 마우스 휠 이벤트
+    function wheelEvent(e) {
+      if (isAnimating) return;
+
+      let direction = e.deltaY > 0 ? 1 : -1;
+      let nextSection = currentSection + direction;
+
+      if (nextSection >= 0 && nextSection < totalSections) {
+        currentSection = nextSection;
+        scrollToSection(currentSection);
+      };
+    };
+
+    // 모바일 터치 이벤트 개선
+    function touchStart(e) {
+      touchStartY = e.touches[0].clientY;
+      lastTouchY = touchStartY; // 시작할 때 이전 터치 위치 초기화
+      touchStartTime = Date.now();
+      isTouching = true;
+    };
+
+    function touchMove(e) {
+      if (!isTouching || isAnimating) return;
+
+      let touchCurrentY = e.touches[0].clientY;
+      let delta = lastTouchY - touchCurrentY; // 마지막 위치와 현재 위치 차이 계산
+      let threshold = 30;
+
+      if (Math.abs(delta) > threshold) {
+        let nextSection = currentSection + (delta > 0 ? 1 : -1);
+
+        if (nextSection >= 0 && nextSection < totalSections) {
+          currentSection = nextSection;
+          lastTouchY = touchCurrentY; // 마지막 위치 갱신
+          requestAnimationFrame(() => scrollToSection(currentSection));
+        };
+      };
+    };
+
+    function touchEnd() {
+      isTouching = false; // 터치 종료 시 상태 초기화
+    };
+
+    // 이벤트 리스너 추가
+    window.addEventListener("load", setSectionHeight);
+    window.addEventListener("resize", setSectionHeight);
+    window.addEventListener("wheel", wheelEvent);
+    window.addEventListener("touchstart", touchStart);
+    window.addEventListener("touchmove", touchMove);
+    window.addEventListener("touchend", touchEnd);
+  </script>
+</body>
+
+</html>
