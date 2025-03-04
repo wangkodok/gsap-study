@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../reset.css">
+  <title>number count animation</title>
+  <style>
+    .count-wrap {
+      display: flex;
+    }
+
+    .count-wrap .number {
+      overflow: hidden;
+      height: 1em;
+      font-size: 31.25rem;
+      font-weight: bold;
+      color: #000;
+      line-height: 1;
+    }
+
+    .number .down {
+      animation: count-down 3s forwards
+    }
+
+    @keyframes count-down {
+      0% {
+        transform: translate3d(0, -90%, 0);
+      }
+
+      100% {
+        transform: translate3d(0, -0, 0);
+      }
+    }
+
+    .number .up {
+      animation: count-up 3s forwards;
+    }
+
+    @keyframes count-up {
+      0% {
+        transform: translate3d(0, -0, 0);
+      }
+
+      100% {
+        transform: translate3d(0, -90%, 0);
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="count-wrap">
+    <div class="number">
+      <ul class="count-list down">
+        <li class="conut-item">2</li> <!-- 보여주는 숫자 2 -->
+        <li class="conut-item">3</li>
+        <li class="conut-item">4</li>
+        <li class="conut-item">5</li>
+        <li class="conut-item">6</li>
+        <li class="conut-item">7</li>
+        <li class="conut-item">8</li>
+        <li class="conut-item">9</li>
+        <li class="conut-item">0</li>
+        <li class="conut-item">1</li>
+      </ul>
+    </div>
+    <div class="number">
+      <ul class="count-list up">
+        <li class="conut-item">9</li>
+        <li class="conut-item">8</li>
+        <li class="conut-item">7</li>
+        <li class="conut-item">6</li>
+        <li class="conut-item">5</li>
+        <li class="conut-item">4</li>
+        <li class="conut-item">3</li>
+        <li class="conut-item">2</li>
+        <li class="conut-item">1</li>
+        <li class="conut-item">0</li> <!-- 보여주는 숫자 0 -->
+      </ul>
+    </div>
+    <div class="number">
+      <ul class="count-list down">
+        <li class="conut-item">2</li> <!-- 보여주는 숫자 2 -->
+        <li class="conut-item">3</li>
+        <li class="conut-item">4</li>
+        <li class="conut-item">5</li>
+        <li class="conut-item">6</li>
+        <li class="conut-item">7</li>
+        <li class="conut-item">8</li>
+        <li class="conut-item">9</li>
+        <li class="conut-item">0</li>
+        <li class="conut-item">1</li>
+      </ul>
+    </div>
+    <div class="number">
+      <ul class="count-list up">
+        <li class="conut-item">4</li>
+        <li class="conut-item">3</li>
+        <li class="conut-item">2</li>
+        <li class="conut-item">1</li>
+        <li class="conut-item">0</li>
+        <li class="conut-item">9</li>
+        <li class="conut-item">8</li>
+        <li class="conut-item">7</li>
+        <li class="conut-item">6</li>
+        <li class="conut-item">5</li> <!-- 보여주는 숫자 5 -->
+      </ul>
+    </div>
+  </div>
+</body>
+
+</html>
