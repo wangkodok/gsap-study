@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../reset.css">
+  <title>아코디언 메뉴 웹 접근성</title>
+  <style>
+    .tab-list {display: flex; border-bottom: 1px solid #000;}
+    /* .tab-item {} */
+    .tab-item .btn {padding: 10px; font-size: 24px; border-right: 1px solid #000;}
+
+    /* .tabContent-list {} */
+    .tabContent-item {display: none;}
+    .tabContent-item.active {display: block;}
+    /* .tabContent-area {} */
+    .tabContent-area .desc {padding: 20px 10px; font-size: 24px;}
+  </style>
+</head>
+
+<body>
+  <!-- 아코디언 메뉴 버튼 -->
+  <ul class="tab-list" role="tablist">
+    <li class="tab-item" role="presentation">
+      <button class="btn" type="button" role="tab" aria-controls="tab_01" aria-selected="true" >menu</button>
+    </li>
+    <li class="tab-item" role="presentation">
+      <button class="btn" type="button" role="tab" aria-controls="tab_02" aria-selected="false" tabindex="0">menu</button>
+    </li>
+    <li class="tab-item" role="presentation">
+      <button class="btn" type="button" role="tab" aria-controls="tab_03" aria-selected="false" tabindex="0">menu</button>
+    </li>
+  </ul>
+  <!-- 아코디언 메뉴 콘텐츠 내용 -->
+  <ul class="tabContent-list">
+    <li class="tabContent-item active">
+      <div class="tabContent-area">
+        <p class="desc" id="tab_01" role="tabpanel">첫 번째 메뉴 콘텐츠 내용입니다.</p>
+      </div>
+    </li>
+    <li class="tabContent-item">
+      <div class="tabContent-area">
+        <p class="desc" id="tab_02" role="tabpanel">두 번째 메뉴 콘텐츠 내용입니다.</p>
+      </div>
+    </li>
+    <li class="tabContent-item">
+      <div class="tabContent-area">
+        <p class="desc" id="tab_03" role="tabpanel">세 번째 메뉴 콘텐츠 내용입니다.</p>
+      </div>
+    </li>
+  </ul>
+  <script>
+    const tabListItem = document.querySelectorAll(".tab-item");
+    const tabContentListItem = document.querySelectorAll(".tabContent-item");
+
+    tabListItem.forEach((tabItem, tabIndex) => {
+      tabItem.addEventListener("click", () => {
+        tabContentListItem.forEach((tabContentItem, tabContentIndex) => {
+          if (tabIndex === tabContentIndex) {
+            tabListItem.forEach((tabItem) => {
+              tabItem.querySelector(".btn").ariaSelected = false;
+            });
+
+            tabContentListItem.forEach((tabContentItem) => {
+              tabContentItem.classList.remove("active");
+            });
+
+            tabContentItem.classList.add("active");
+            tabItem.querySelector(".btn").ariaSelected = true;
+          };
+        });
+      });
+    });
+  </script>
+</body>
+
+</html>
