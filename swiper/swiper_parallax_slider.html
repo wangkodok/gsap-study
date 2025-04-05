@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.0.7/css/swiper.min.css">
+  <title>swiper parallax slider</title>
+  <style>
+    [class^="swiper-button-"] {
+      visibility: hidden;
+      width: 44px;
+      transition: all 0.3s ease;
+      opacity: 0;
+    }
+
+    *,
+    *::before,
+    *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    .swiper-container {
+      float: left;
+      width: 100%;
+      height: 100vh;
+    }
+
+    .swiper-container:hover .swiper-button-prev,
+    .swiper-container:hover .swiper-button-next {
+      visibility: visible;
+      transform: translate(0);
+      opacity: 1;
+    }
+
+    .swiper-container.loading {
+      visibility: hidden;
+      opacity: 0;
+    }
+
+    .swiper-slide {
+      overflow: hidden;
+      backface-visibility: hidden;
+    }
+
+    .swiper-slide .content {
+      position: absolute;
+      top: 50%;
+      left: 0;
+      width: 50%;
+      color: #fff;
+      transform: translateY(-50%);
+      padding-left: 5%;
+    }
+
+    .swiper-slide .content .title {
+      font-size: 6em;
+      font-weight: bold;
+      margin-bottom: 16px;
+      transform: translateY(50px);
+      opacity: 0;
+      transition: opacity 0.3s ease, transform 0.7s ease;
+    }
+
+    .swiper-slide .content .title.show {
+      transform: translateX(0);
+      opacity: 1;
+    }
+
+    .swiper-slide .content .caption {
+      display: block;
+      font-size: 24px;
+      line-height: 1.4;
+      transform: translateY(50px);
+      opacity: 0;
+      transition: opacity 0.3s ease 0.5s, transform 0.7s ease 0.5s;
+    }
+
+    .swiper-slide .content .caption.show {
+      transform: translateX(0);
+      opacity: 1;
+    }
+
+    .swiper-button-prev {
+      transform: translateX(50px);
+    }
+
+    .swiper-button-next {
+      transform: translateX(-50px);
+    }
+  </style>
+</head>
+<body>
+  <div class="swiper-container main-slider loading">
+    <ul class="swiper-wrapper">
+      <li class="swiper-slide">
+        <div class="slide-bgimg" >
+          <img src="https://picsum.photos/id/1037/1920/1080" class="entity-img" alt="">
+        </div>
+        <div class="content">
+          <p class="title">first slide</p>
+          <span class="caption">Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusantium, totam quibusdam officia aspernatur est expedita, inventore, reiciendis saepe adipisci</span>
+        </div>
+      </li>
+      <li class="swiper-slide">
+        <div class="slide-bgimg" >
+          <img src="https://picsum.photos/id/1018/1920/1080" class="entity-img" alt="">
+        </div>
+        <div class="content">
+          <p class="title">second slide</p>
+          <span class="caption">Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusantium, totam quibusdam officia aspernatur est expedita, inventore, reiciendis saepe adipisci</span>
+        </div>
+      </li>
+      <li class="swiper-slide">
+        <div class="slide-bgimg" >
+          <img src="https://picsum.photos/id/1025/1920/1080" class="entity-img" alt="">
+        </div>
+        <div class="content">
+          <p class="title">third slide</p>
+          <span class="caption">Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusantium, totam quibusdam officia aspernatur est expedita, inventore, reiciendis saepe adipisci</span>
+        </div>
+      </li>
+      <li class="swiper-slide">
+        <div class="slide-bgimg" >
+          <img src="https://picsum.photos/id/1018/1920/1080" class="entity-img" alt="">
+        </div>
+        <div class="content">
+          <p class="title">fourth slide</p>
+          <span class="caption">Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusantium, totam quibusdam officia aspernatur est expedita, inventore, reiciendis saepe adipisci</span>
+        </div>
+      </li>
+    </ul>
+    <div class="swiper-button-prev swiper-button-white"></div>
+    <div class="swiper-button-next swiper-button-white"></div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.0.7/js/swiper.min.js"></script>
+  <script>
+    let mainSliderSelector = ".main-slider",
+        interleaveOffset = 0.5
+
+    let mainSliderOptions = {
+      loop: true,
+      speed: 1000,
+      autoplay: {
+        delay: 3000
+      },
+      loopAdditionalSlides: 10,
+      grabCursor: true,
+      navigation: {
+        nextEl: ".swiper-button-next",
+        prevEl: ".swiper-button-prev"
+      },
+      on: {
+        init: function() {
+          this.autoplay.stop();
+        },
+        imagesReady: function() {
+          this.el.classList.remove("loading");
+          this.autoplay.start();
+        },
+        slideChangeTransitionEnd: function() {
+          let swiper = this,
+          title = swiper.el.querySelectorAll(".title");
+          captions = swiper.el.querySelectorAll(".caption");
+          for (let i = 0; i < captions.length; i++) {
+            captions[i].classList.remove("show");
+          }
+          swiper.slides[swiper.activeIndex].querySelector(".caption").classList.add("show");
+
+          for (let i = 0; i < title.length; i++) {
+            title[i].classList.remove("show");
+          }
+          swiper.slides[swiper.activeIndex].querySelector(".title").classList.add("show");
+        },
+        progress: function() {
+          let swiper = this;
+          for(let i = 0; i < swiper.slides.length; i++) {
+            let slideProgress = swiper.slides[i].progress,
+                innerOffset = swiper.width * interleaveOffset,
+                innerTranslate = slideProgress * innerOffset;
+
+                swiper.slides[i].querySelector(".slide-bgimg").style.transform = "translateX(" + innerTranslate + "px)";
+          }
+        },
+        touchStart: function() {
+          let swiper = this;
+          for (let i = 0; i < swiper.slides.length; i++) {
+            swiper.slides[i].style.transition = "";
+          }
+        },
+        setTransition: function(speed) {
+          let swiper = this;
+          for (let i = 0; i < swiper.slides.length; i++) {
+            swiper.slides[i].style.transition = speed + "ms";
+            swiper.slides[i].querySelector(".slide-bgimg").style.transition = speed + "ms";
+          }
+        }
+      }
+    }
+
+    let mainSlider = new Swiper(mainSliderSelector, mainSliderOptions);
+  </script>
+</body>
+</html>
