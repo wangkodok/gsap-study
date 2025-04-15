@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../reset.css">
+  <title>animation horizontal</title>
+  <style>
+    /* 가로 텍스트 애니메이션 */
+    .animation-horizontal-wrap {
+      border-top: 2px solid #000;
+      border-bottom: 2px solid #000;
+    }
+
+    .animation-horizontal {
+      overflow: hidden;
+    }
+
+    .animation-horizontal .wrap {
+      display: flex;
+      margin-left: -100%;
+      padding: 20px 0;
+    }
+
+    .animation-horizontal .wrap .text {
+      width: 100%;
+      padding: 0 120px 0 0;
+      margin: 0;
+      font-size: 64px;
+      font-weight: 700;
+      text-transform: uppercase;
+      white-space: nowrap;
+      animation: animationHorizontal 32s linear infinite running;
+    }
+
+    /* 가로 텍스트 애니메이션 마우스 오버 시 멈춤 */
+    /* .animation-horizontal:hover .wrap .text {
+      animation-play-state: paused;
+    } */
+
+    @keyframes animationHorizontal {
+      0% {
+        transform: translateX(0);
+      }
+
+      100% {
+        transform: translateX(-100%);
+      }
+    }
+
+    .animation-horizontal.basics .wrap {
+      background-color: #000;
+    }
+
+    .animation-horizontal.basics .wrap .text {
+      color: #fff;
+    }
+
+    .animation-horizontal.skill .wrap .text {
+      padding: 0;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="animation-horizontal-wrap">
+    <div class="animation-horizontal talent">
+      <div class="wrap">
+        <span class="text">끈기+섬세함+실력+꾸준함</span>
+        <span class="text">끈기+섬세함+실력+꾸준함</span>
+        <span class="text">끈기+섬세함+실력+꾸준함</span>
+        <span class="text">끈기+섬세함+실력+꾸준함</span>
+        <span class="text">끈기+섬세함+실력+꾸준함</span>
+        <span class="text">끈기+섬세함+실력+꾸준함</span>
+        <span class="text">끈기+섬세함+실력+꾸준함</span>
+      </div>
+    </div>
+
+    <div class="animation-horizontal basics">
+      <div class="wrap">
+        <span class="text">#견고한 설계&nbsp;&nbsp;#간결함&nbsp;&nbsp;#효율적인 마크업&nbsp;&nbsp;#기본기&nbsp;&nbsp;#구현능력&nbsp;&nbsp;</span>
+        <span class="text">#견고한 설계&nbsp;&nbsp;#간결함&nbsp;&nbsp;#효율적인 마크업&nbsp;&nbsp;#기본기&nbsp;&nbsp;#구현능력&nbsp;&nbsp;</span>
+        <span class="text">#견고한 설계&nbsp;&nbsp;#간결함&nbsp;&nbsp;#효율적인 마크업&nbsp;&nbsp;#기본기&nbsp;&nbsp;#구현능력&nbsp;&nbsp;</span>
+        <span class="text">#견고한 설계&nbsp;&nbsp;#간결함&nbsp;&nbsp;#효율적인 마크업&nbsp;&nbsp;#기본기&nbsp;&nbsp;#구현능력&nbsp;&nbsp;</span>
+        <span class="text">#견고한 설계&nbsp;&nbsp;#간결함&nbsp;&nbsp;#효율적인 마크업&nbsp;&nbsp;#기본기&nbsp;&nbsp;#구현능력&nbsp;&nbsp;</span>
+        <span class="text">#견고한 설계&nbsp;&nbsp;#간결함&nbsp;&nbsp;#효율적인 마크업&nbsp;&nbsp;#기본기&nbsp;&nbsp;#구현능력&nbsp;&nbsp;</span>
+        <span class="text">#견고한 설계&nbsp;&nbsp;#간결함&nbsp;&nbsp;#효율적인 마크업&nbsp;&nbsp;#기본기&nbsp;&nbsp;#구현능력&nbsp;&nbsp;</span>
+      </div>
+    </div>
+
+    <div class="animation-horizontal skill">
+      <div class="wrap">
+        <span class="text">웹 표준&nbsp;&nbsp;+&nbsp;&nbsp;웹 접근성&nbsp;&nbsp;+&nbsp;&nbsp;SEO&nbsp;&nbsp;+&nbsp;&nbsp;크로스브라우징&nbsp;&nbsp;+&nbsp;&nbsp;</span>
+        <span class="text">웹 표준&nbsp;&nbsp;+&nbsp;&nbsp;웹 접근성&nbsp;&nbsp;+&nbsp;&nbsp;SEO&nbsp;&nbsp;+&nbsp;&nbsp;크로스브라우징&nbsp;&nbsp;+&nbsp;&nbsp;</span>
+        <span class="text">웹 표준&nbsp;&nbsp;+&nbsp;&nbsp;웹 접근성&nbsp;&nbsp;+&nbsp;&nbsp;SEO&nbsp;&nbsp;+&nbsp;&nbsp;크로스브라우징&nbsp;&nbsp;+&nbsp;&nbsp;</span>
+        <span class="text">웹 표준&nbsp;&nbsp;+&nbsp;&nbsp;웹 접근성&nbsp;&nbsp;+&nbsp;&nbsp;SEO&nbsp;&nbsp;+&nbsp;&nbsp;크로스브라우징&nbsp;&nbsp;+&nbsp;&nbsp;</span>
+        <span class="text">웹 표준&nbsp;&nbsp;+&nbsp;&nbsp;웹 접근성&nbsp;&nbsp;+&nbsp;&nbsp;SEO&nbsp;&nbsp;+&nbsp;&nbsp;크로스브라우징&nbsp;&nbsp;+&nbsp;&nbsp;</span>
+        <span class="text">웹 표준&nbsp;&nbsp;+&nbsp;&nbsp;웹 접근성&nbsp;&nbsp;+&nbsp;&nbsp;SEO&nbsp;&nbsp;+&nbsp;&nbsp;크로스브라우징&nbsp;&nbsp;+&nbsp;&nbsp;</span>
+        <span class="text">웹 표준&nbsp;&nbsp;+&nbsp;&nbsp;웹 접근성&nbsp;&nbsp;+&nbsp;&nbsp;SEO&nbsp;&nbsp;+&nbsp;&nbsp;크로스브라우징&nbsp;&nbsp;+&nbsp;&nbsp;</span>
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>
