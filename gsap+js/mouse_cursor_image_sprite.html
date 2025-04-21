@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../reset.css">
+  <title>full screen | mouse cursor image sprite</title>
+  <style>
+    html,
+    body {
+      width: 100%;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      background-color: #d3d0bd;
+      color: #272525;
+    }
+
+    .preview {
+      position: absolute;
+      width: 250px;
+      height: 250px;
+      overflow: hidden;
+      pointer-events: none;
+      transform-origin: center;
+      transform: scale(0);
+      transition: width 0.3s linear, height 0.3s linear;
+      z-index: 2;
+    }
+
+    .preview-img {
+      width: 100%;
+      height: 100%;
+      background-image: url("../image/cursor.png");
+      background-size: cover;
+      background-position: 0 0;
+      pointer-events: none;
+    }
+
+    p {
+      font-size: 14px;
+      line-height: 100%;
+    }
+
+    #header p {
+      opacity: 0.5;
+    }
+
+    .container {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .projects {
+      width: 70%;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .project {
+      width: 100%;
+      padding: 2.5em 1em;
+      display: flex;
+      align-items: center;
+      border-bottom: 1px solid #000;
+      cursor: pointer;
+    }
+
+    .project > div {
+      flex: 3;
+    }
+
+    .project div:last-child {
+      flex: 1;
+    }
+
+    @media(max-width: 900px) {
+      .location,
+      .service {
+        display: none;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="preview">
+    <div class="preview-img"></div>
+  </div>
+  <div class="container">
+    <div class="projects">
+      <div id="header" class="project">
+        <div class="client">
+          <p>skill</p>
+        </div>
+        <div class="location">
+          <p>language</p>
+        </div>
+        <div class="service">
+          <p></p>
+        </div>
+        <div class="year">
+          <p></p>
+        </div>
+      </div>
+      <div id="p1" class="project">
+        <div class="client">
+          <p>★★★★★</p>
+        </div>
+        <div class="location">
+          <p>JavaScript</p>
+        </div>
+        <div class="service">
+          <p></p>
+        </div>
+        <div class="year">
+          <p></p>
+        </div>
+      </div>
+      <div id="p2" class="project">
+        <div class="client">
+          <p>★★★★★</p>
+        </div>
+        <div class="location">
+          <p>styled-components</p>
+        </div>
+        <div class="service">
+          <p></p>
+        </div>
+        <div class="year">
+          <p></p>
+        </div>
+      </div>
+      <div id="p3" class="project">
+        <div class="client">
+          <p>★★★★★</p>
+        </div>
+        <div class="location">
+          <p>TypeScript</p>
+        </div>
+        <div class="service">
+          <p></p>
+        </div>
+        <div class="year">
+          <p></p>
+        </div>
+      </div>
+      <div id="p4" class="project">
+        <div class="client">
+          <p>★★★★★</p>
+        </div>
+        <div class="location">
+          <p>Tailwind CSS</p>
+        </div>
+        <div class="service">
+          <p></p>
+        </div>
+        <div class="year">
+          <p></p>
+        </div>
+      </div>
+      <div id="p5" class="project">
+        <div class="client">
+          <p>★★★★★</p>
+        </div>
+        <div class="location">
+          <p>Redux</p>
+        </div>
+        <div class="service">
+          <p></p>
+        </div>
+        <div class="year">
+          <p></p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script>
+    const projects = document.querySelector(".projects");
+    const preview = document.querySelector(".preview");
+    const previewImg = document.querySelector(".preview-img");
+
+    let isInside = false;
+
+    const bgPosition = {
+      p1: "0 0px",
+      p2: "0 -250px",
+      p3: "0 -500px",
+      p4: "0 -750px",
+      p5: "0 -1000px",
+    };
+
+    const moveStuff = (e) => {
+      const mouseInside = isMouseInsideContainer(e);
+
+      if (mouseInside !== isInside) {
+        isInside = mouseInside;
+        if (isInside) {
+          gsap.to(preview, 0.3, {
+            scale: 1,
+          })
+        } else {
+          gsap.to(preview, 0.3, {
+            scale: 0,
+          });
+        };
+      };
+    };
+
+    const moveProject = (e) => {
+      const previewRect = preview.getBoundingClientRect();
+      const offsetX = previewRect.width / 2;
+      const offsetY = previewRect.height / 2;
+
+      preview.style.left = e.pageX - offsetX + "px";
+      preview.style.top = e.pageY - offsetY + "px";
+    };
+
+    const moveProjectImg = (project) => {
+      const projectId = project.id;
+      gsap.to(previewImg, 0.5, {
+        backgroundPosition: bgPosition[projectId] || "0 0",
+      });
+    };
+
+    const isMouseInsideContainer = (e) => {
+      const containerRect = projects.getBoundingClientRect();
+      return (
+        e.pageX >= containerRect.left &&
+        e.pageX <= containerRect.right &&
+        e.pageY >= containerRect.top &&
+        e.pageY <= containerRect.bottom
+      );
+    };
+
+    window.addEventListener("mousemove", moveStuff);
+
+    Array.from(projects.children).forEach((project) => {
+      project.addEventListener("mousemove", moveProject);
+      project.addEventListener("mousemove", moveProjectImg.bind(null, project));
+    });
+  </script>
+</body>
+
+</html>
