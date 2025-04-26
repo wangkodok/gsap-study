@@ -4,3 +4,13 @@
   font-family: "Freesentation_5Medium";
   src: url("./font/Freesentation-5Medium.ttf") format('woff2');
 }
+
+@font-face {
+  font-family: "KoBrawlGothicTTBold";
+  src: url("./font/KoBrawlGothicTTBold.ttf") format('woff2');
+}
+
+@font-face {
+  font-family: "KoBrawlGothicTTBlack";
+  src: url("./font/KoBrawlGothicTTBlack.ttf") format('woff2');
+}
