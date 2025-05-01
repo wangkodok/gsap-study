@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../reset.css">
+  <title>mouse cursor animation</title>
+  <style>
+    /* h100vh */
+    .h100vh {height: 100vh;}
+    .text {display: flex; justify-content: center; align-items: center; font-size: 10vw;}
+
+    /* color */
+    .r {background-color: red;}
+    .g {background-color: green;}
+    .b {background-color: blue;}
+
+    /* 마우스 커서 none */
+    body,
+    a,
+    button {
+      cursor: none;
+    }
+
+    /* 마우스 커서 */
+    .cursor {
+      position: fixed;
+      width: 10px;
+      height: 10px;
+      background-color: #000;
+      border-radius: 50%;
+      top: 0;
+      left: 0;
+      pointer-events: none;
+      transform: translate(-50%, -50%);
+      z-index: 20000;
+      opacity: 0;
+      /* transition: 0.1s; */
+    }
+
+    .cursor-size {
+      width: 100px;
+      height: 100px;
+      transition: 0.1s;
+    }
+
+    /* 마우스 커서를 따라오는 요소 */
+    .cursor-tail {
+      position: fixed;
+      width: 10px;
+      height: 10px;
+      background-color: #000;
+      border-radius: 50%;
+      top: 0;
+      left: 0;
+      pointer-events: none;
+      transform: translate(-50%, -50%);
+      z-index: 10000;
+      opacity: 0;
+      transition: 0.1s;
+    }
+
+    .cursor-dummy {
+      position: fixed;
+      width: 10px;
+      height: 10px;
+      background-color: #000;
+      border-radius: 50%;
+      top: 0;
+      left: 0;
+      pointer-events: none;
+      transform: translate(-50%, -50%);
+      z-index: 10000;
+      opacity: 0;
+      transition: 0.2s;
+    }
+
+    /* 마우스 오버 시 이미지 나타내기 */
+    .mouse-hover-list {
+      position: fixed;
+      width: 500px;
+      height: 308px;
+      top: 0;
+      left: 0;
+      pointer-events: none;
+      transform: translate(-50%, -50%);
+      z-index: 10000;
+      opacity: 0;
+      transition: 0.2s linear;
+    }
+
+    .mouse-hover-list .item {
+      position: absolute;
+      top: 0;
+      left: 0;
+      opacity: 0;
+      transition: opacity 0.5s ease;
+    }
+
+    .mouse-hover-list .item.active {
+      opacity: 1;
+    }
+
+    .mouse-hover-list .item img {
+      width: 320px;
+      height: auto;
+    }
+
+    /* 텍스트 목록 */
+    .text-list {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .text-item {
+      padding: 100px;
+      border-top: 1px solid #000;
+    }
+
+    .text-item .title {
+      font-size: 100px;
+    }
+
+    .text-item .desc {
+      font-size: 50px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="cursor"></div>
+  <div class="cursor-tail"></div>
+  <div class="cursor-dummy"></div>
+  <div class="h100vh text">시작</div>
+  <ul class="mouse-hover-list">
+    <li class="item">
+      <img src="../image/brawlstars_barley.webp" alt="">
+    </li>
+    <li class="item">
+      <img src="../image/brawlstars_bull.webp" alt="">
+    </li>
+    <li class="item">
+      <img src="../image/brawlstars_jessie.webp" alt="">
+    </li>
+    <li class="item">
+      <img src="../image/brawlstars_bo.webp" alt="">
+    </li>
+  </ul>
+
+  <ul class="text-list">
+    <li class="text-item">
+      <h1 class="title">brawlstars_barley</h1>
+      <p class="desc">브롤스타즈</p>
+    </li>
+    <li class="text-item">
+      <h1 class="title">brawlstars_bull</h1>
+      <p class="desc">브롤스타즈</p>
+    </li>
+    <li class="text-item">
+      <h1 class="title">brawlstars_jessie</h1>
+      <p class="desc">브롤스타즈</p>
+    </li>
+    <li class="text-item">
+      <h1 class="title">brawlstars_bo</h1>
+      <p class="desc">브롤스타즈</p>
+    </li>
+  </ul>
+  <div class="h100vh text">끝</div>
+  <!-- <div class="b h100vh"></div> -->
+  <script>
+    window.addEventListener("DOMContentLoaded", () => {
+      const cursor = document.querySelector(".cursor");
+      const cursorTail = document.querySelector(".cursor-tail");
+      const cursorDummy = document.querySelector(".cursor-dummy");
+      const mouseHoverList = document.querySelector(".mouse-hover-list");
+      const hover = document.querySelector(".list-work");
+
+      function mouseMove(e) {
+        if (e.isTrusted === true) {
+          const mouseX = e.pageX;
+          const mouseY = e.pageY;
+
+          cursor.style.opacity = "1";
+          cursorTail.style.opacity = "1";
+          cursorDummy.style.opacity = "1";
+          mouseHoverList.style.opacity = "1";
+
+          // 스크롤시 마우스 커서 위치를 제어하는 코드
+          cursor.style.top = mouseY - document.documentElement.scrollTop + "px";
+          cursor.style.left = mouseX - document.documentElement.scrollLeft + "px";
+          cursorTail.style.top = mouseY - document.documentElement.scrollTop + "px";
+          cursorTail.style.left = mouseX - document.documentElement.scrollLeft + "px";
+          cursorDummy.style.top = mouseY - document.documentElement.scrollTop + "px";
+          cursorDummy.style.left = mouseX - document.documentElement.scrollLeft + "px";
+          mouseHoverList.style.top = mouseY - document.documentElement.scrollTop + "px";
+          mouseHoverList.style.left = mouseX - document.documentElement.scrollLeft + "px";
+        };
+      };
+
+      // 마우스 오버하면 마우스 커서 효과
+      function mouseEnter() {
+        cursor.classList.add("cursor-size");
+        cursorTail.classList.remove("cursor-tail");
+      };
+
+      // 마우스 아웃하면 마우스 커서 효과
+      function mouseLeave() {
+        cursor.classList.remove("cursor-size");
+        cursorTail.classList.add("cursor-tail");
+      };
+
+      document.addEventListener("mousemove", mouseMove);
+
+      // 마우스 오버 시 이미지 나타내기
+      const workCursorLi = document.querySelectorAll(".mouse-hover-list li");
+      const horizontalScrollLi = document.querySelectorAll(".text-list li");
+
+      horizontalScrollLi.forEach((item, index) => {
+        item.addEventListener("mouseenter", () => {
+          // 모든 workCursorLi에서 active 제거 (선택 사항)
+          workCursorLi.forEach(el => el.classList.remove("active"));
+
+          // 해당 index의 workCursorLi에 active 추가
+          if (workCursorLi[index]) {
+            workCursorLi[index].classList.add("active");
+          };
+        });
+
+        item.addEventListener("mouseleave", () => {
+          if (workCursorLi[index]) {
+            workCursorLi[index].classList.remove("active");
+          };
+        });
+      });
+    });
+  </script>
+</body>
+
+</html>
